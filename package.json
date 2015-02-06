@@ -1,0 +1,21 @@
+{
+  "name": "dns-server-via-dht",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "maboiteaspam",
+  "license": "WTFPL",
+  "dependencies": {
+    "bitauth": "^0.2.1",
+    "commander": "^2.6.0",
+    "debug": "^2.1.1",
+    "dns-via-dht": "^1.0.0",
+    "hash.js": "^1.0.2",
+    "native-dns": "^0.7.0",
+    "path-extra": "^0.3.0",
+    "underscore": "^1.7.0"
+  }
+}
