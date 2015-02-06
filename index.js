@@ -39,13 +39,10 @@ var DHTDNSServer = function(opts){
         response.send();
       }, 5000);
       solver.resolve(dns, publicKey, function(err, response){
+        clearTimeout(pendingQuestions[question]);
         if(err){
-          clearTimeout(pendingQuestions[question]);
-          delete pendingQuestions[question];
           response.send();
         } else if(pendingQuestions[question]/* timeout is alive */) {
-          clearTimeout(pendingQuestions[question]);
-          delete pendingQuestions[question];
           response.answer.push(dns.A({
             name: question,
             address: response.ip,
@@ -53,6 +50,7 @@ var DHTDNSServer = function(opts){
           }));
           response.send();
         }
+        delete pendingQuestions[question];
       });
     }
   });

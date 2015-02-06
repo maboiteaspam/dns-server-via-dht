@@ -156,7 +156,7 @@ program.command('list-book')
     console.log(addressList.length+ ' addresses');
     console.log('');
     addressList.forEach(function(dns){
-      console.log(dns+ ' => '+config.addressBook[dns]);
+      console.log(dns+ ' => '+config.addressBook[dns] /* public key */);
     });
 
   });
