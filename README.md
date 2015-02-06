@@ -62,4 +62,10 @@ dns-server-via-dht announce 'some.domain' 'some passphrase'
     -b, --bootstrap <nodes>    ip:port address of the bootstrap nodes, or, 'diy' to scan the network for the BT DHT
 ```
 
+# TODO
+
+- add dig example command
+- add tests
+- test IRL
+- implement nss or something like this ? Or find good browser plugin ?
 
