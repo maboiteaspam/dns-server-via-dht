@@ -54,12 +54,17 @@ dns-server-via-dht announce 'some.domain' 'some passphrase'
 
   Start command Options:
 
+    -d, --detach                      detach process and run in background
+    
     -dhtp, --dht-port <port>          port on which the DHT listens
     -dhth, --dht-hostname <hostname>  hostname on which DHT listens
+    
     -dnsp, --dns-port <port>          port on which the DNS listens
     -dnsh, --dns-hostname <hostname>  hostname on which DNS listens
-    -K, --knodes <K>           K nodes to find before he DHT is ready
-    -b, --bootstrap <nodes>    ip:port address of the bootstrap nodes, or, 'diy' to scan the network for the BT DHT
+    
+    -K, --knodes <K>                  K nodes to find before he DHT is ready
+    -b, --bootstrap <nodes>           ip:port address of the bootstrap nodes, 
+                                      or, 'diy' to scan the network for the BT DHT
 ```
 
 # TODO
