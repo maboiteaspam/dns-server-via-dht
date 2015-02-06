@@ -90,7 +90,7 @@ program.command('announce <dns> <passphrase>')
   });
 
 program.command('show <dns>')
-  .description('Show information about announced dns')
+  .description('Show passphrase & public key of a dns')
   .action(function(dns){
     var opts = {};
 

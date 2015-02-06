@@ -41,8 +41,8 @@ dns-server-via-dht announce 'some.domain' 'some passphrase'
   Commands:
 
     start [options]              Start DNS server
-    announce <dns> <passphrase>  Announce a DNS
-    show <dns>                   Show information about announced dns
+    announce <dns> [passphrase]  Announce a DNS, passphrase is optional, it creates one for you
+    show <dns>                   Show passphrase & public key of a dns
     list-announces               List all announces and their public key
     list-book                    Display address book content
 
