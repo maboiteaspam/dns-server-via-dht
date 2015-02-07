@@ -9,7 +9,7 @@ see [dns-via-dht](https://github.com/maboiteaspam/dns-via-dht)
 For DNS specification implementation
 see [node-dns](https://github.com/tjfontaine/node-dns)
 
-Pretty simple for now, no support for nss or upnp.
+Pretty simple for now, no support of nss or upnp.
 
 # Beware
 
