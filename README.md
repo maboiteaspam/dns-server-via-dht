@@ -75,5 +75,4 @@ dns-server-via-dht remove 'my-friend-dns.com'
 - add dig example command
 - add tests
 - test IRL
-- implement nss or something like this ? Or find good browser plugin ?
 
