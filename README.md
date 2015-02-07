@@ -26,8 +26,11 @@ npm i maboiteaspam/dns-server-via-dht -g
 ```zsh
 dns-server-via-dht start --detach
 dns-server-via-dht announce 'some.domain' 'some passphrase'
+
 dns-server-via-dht add 'my-friend-dns.com' 'his public key'
 dns-server-via-dht resolve 'my-friend-dns.com' 'his public key'
+dig @0.0.0.0 -p 9080 my-friend-dns.com
+
 dns-server-via-dht remove 'my-friend-dns.com'
 ```
 
@@ -116,13 +119,13 @@ you ve just resolved a locally announced domain name.
 ...
 ```
 
-you ve confirm you can t resolve domain node this node does not know about.
+you ve confirm you can t resolve a domain this node does not know about.
 
 ```zsh
 node cli.js add some.com <publicKey> -c ./2nd-node.json -v
 ```
 
-you ve just added some.com to its peer list.
+you ve just added some.com to its peer list, you can now resolve it.
 
 ```zsh
 > dig @0.0.0.0 -p 9081 some.com
@@ -135,7 +138,7 @@ some.com.               600     IN      A       127.0.0.1
 ...
 ```
 
-you ve been able to resolve it.
+done, you ve been able to resolve it.
 
 ```zsh
 node cli.js remove some.com -c ./2nd-node.json -v
@@ -165,7 +168,7 @@ you ve just forgot the announcement.
 ...
 ```
 
-dig does not resolve anymore.
+dig does not resolve anything anymore.
 
 
 # TODO
