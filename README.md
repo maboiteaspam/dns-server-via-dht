@@ -113,7 +113,7 @@ some.com.               600     IN      A       127.0.0.1
 
 # TODO
 
-- add dig example command
+- check nss / upnp / alternative support to ease the use
 - add tests
 - test IRL
 
