@@ -40,12 +40,14 @@ dns-server-via-dht announce 'some.domain' 'some passphrase'
 
   Commands:
 
-    start [options]              Start DNS server
-    announce <dns> [passphrase]  Announce a DNS, passphrase is optional, 
-                                  it creates one for you
-    show <dns>                   Show passphrase & public key of a dns
-    list-announces               List all announces and their public key
-    list-book                    Display address book content
+    start [options]                      Start DNS server
+    resolve [options] <dns> <publicKey>  Resolve a peer DNS
+    announce <dns> <passphrase>          Announce a DNS
+    show <dns>                           Show passphrase & public key of a dns
+    list-announces                       List all announces and their public key
+    add <dns> <publicKey>                Add a peer DNS
+    list-peers                           Display peers DNS
+    remove <dns>                         Remove a DNS from peer and announced DNS lists
 
   Options:
 
@@ -53,7 +55,8 @@ dns-server-via-dht announce 'some.domain' 'some passphrase'
     -V, --version  output the version number
     -v, --verbose  enable verbosity
 
-  Start command Options:
+
+  [start|resolve] options command :
 
     -d, --detach                      detach process and run in background
     
