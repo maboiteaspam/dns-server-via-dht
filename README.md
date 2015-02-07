@@ -46,7 +46,8 @@ dns-server-via-dht remove 'my-friend-dns.com'
     list-announces                       List all announces and their public key
     add <dns> <publicKey>                Add a peer DNS
     list-peers                           Display peers DNS
-    remove <dns>                         Remove a DNS from peer and announced DNS lists
+    remove <dns>                         Remove a DNS from peer 
+                                         and announced DNS lists
 
   Options:
 
@@ -58,7 +59,7 @@ dns-server-via-dht remove 'my-friend-dns.com'
 
   [start|resolve] options command :
 
-    -d, --detach                      detach process and run in background
+    -d, --detach               detach process and run in background
     
     --dht-port <port>          port on which the DHT listens
     --dht-hostname <hostname>  hostname on which DHT listens
@@ -66,9 +67,9 @@ dns-server-via-dht remove 'my-friend-dns.com'
     --dns-port <port>          port on which the DNS listens
     --dns-hostname <hostname>  hostname on which DNS listens
     
-    -K, --knodes <K>                  K nodes to find before he DHT is ready
-    -b, --bootstrap <nodes>           ip:port address of the bootstrap nodes, 
-                                      or, 'diy' to scan the network for the BT DHT
+    -K, --knodes <K>           K nodes to find before he DHT is ready
+    -b, --bootstrap <nodes>    ip:port address of the bootstrap nodes, 
+                               or, 'diy' to scan the network for the BT DHT
 ```
 
 # Test
