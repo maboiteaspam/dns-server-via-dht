@@ -67,7 +67,7 @@ dns-server-via-dht remove 'my-friend-dns.com'
     --dns-port <port>          port on which the DNS listens
     --dns-hostname <hostname>  hostname on which DNS listens
     
-    -K, --knodes <K>           K nodes to find before he DHT is ready
+    -K, --knodes <K>           K nodes to find before the DHT is ready
     -b, --bootstrap <nodes>    ip:port address of the bootstrap nodes, 
                                or, 'diy' to scan the network for the BT DHT
 ```

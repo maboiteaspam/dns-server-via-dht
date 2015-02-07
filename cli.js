@@ -33,7 +33,7 @@ program.command('start')
   'hostname on which DHT listens')
 
   .option('-K, --knodes <K>',
-  'K nodes to find before he DHT is ready')
+  'K nodes to find before the DHT is ready')
   .option('-b, --bootstrap [nodes]',
   'ip:port address of the bootstrap nodes, or, \'diy\' to scan the network for the BT DHT')
 
@@ -111,7 +111,7 @@ program.command('resolve <dns> <publicKey>')
   'hostname on which DHT listens')
 
   .option('-K, --knodes <K>',
-  'K nodes to find before he DHT is ready')
+  'K nodes to find before the DHT is ready')
   .option('-b, --bootstrap <nodes>',
   'ip:port address of the bootstrap nodes, or, \'diy\' to scan the network for the BT DHT')
 
