@@ -50,25 +50,62 @@ dns-server-via-dht remove 'my-friend-dns.com'
 
   Options:
 
-    -h, --help     output usage information
-    -V, --version  output the version number
-    -v, --verbose  enable verbosity
+    -h, --help                output usage information
+    -V, --version             output the version number
+    -v, --verbose             enable verbosity
+    -c, --config-path <path>  path to configuration file
 
 
   [start|resolve] options command :
 
     -d, --detach                      detach process and run in background
     
-    -dhtp, --dht-port <port>          port on which the DHT listens
-    -dhth, --dht-hostname <hostname>  hostname on which DHT listens
+    --dht-port <port>          port on which the DHT listens
+    --dht-hostname <hostname>  hostname on which DHT listens
     
-    -dnsp, --dns-port <port>          port on which the DNS listens
-    -dnsh, --dns-hostname <hostname>  hostname on which DNS listens
+    --dns-port <port>          port on which the DNS listens
+    --dns-hostname <hostname>  hostname on which DNS listens
     
     -K, --knodes <K>                  K nodes to find before he DHT is ready
     -b, --bootstrap <nodes>           ip:port address of the bootstrap nodes, 
                                       or, 'diy' to scan the network for the BT DHT
 ```
+
+# Test
+
+##### Terminal 1
+
+```zsh
+node cli.js start --dht-port 9090 --dht-hostname '127.0.0.1' -K 1 -b '' -v --dns-hostname 127.0.0.1
+```
+
+##### Terminal 2
+
+```zsh
+node cli.js start --dns-port 9081 --dht-port 9091 --dht-hostname '127.0.0.1' -K 1 -b '127.0.0.1:9090' -v -c ./tt.json --dns-hostname 127.0.0.1
+```
+
+##### Terminal 3
+
+```zsh
+> dig @0.0.0.0 -p 9080 some.com
+...
+;; QUESTION SECTION:
+;some.com.                      IN      A
+
+;; ANSWER SECTION:
+some.com.               600     IN      A       127.0.0.1
+...
+```
+
+```zsh
+> dig @0.0.0.0 -p 9081 some.com
+...
+;; QUESTION SECTION:
+;some.com.                      IN      A
+...
+```
+
 
 # TODO
 
