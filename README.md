@@ -86,10 +86,14 @@ node cli.js start --dht-port 9090 \
 ```zsh
 node cli.js start --dns-port 9081 --dht-port 9091 \
 --dht-hostname '127.0.0.1' -K 1 -b '127.0.0.1:9090' \
--v -c ./tt.json --dns-hostname 127.0.0.1
+-v -c ./2nd-node.json --dns-hostname 127.0.0.1
 ```
 
 ##### Terminal 3
+
+```zsh
+node cli.js announce some.com whatever
+```
 
 ```zsh
 > dig @0.0.0.0 -p 9080 some.com
@@ -102,6 +106,8 @@ some.com.               600     IN      A       127.0.0.1
 ...
 ```
 
+you ve just resolved a locally announced domain name.
+
 ```zsh
 > dig @0.0.0.0 -p 9081 some.com
 ...
@@ -109,6 +115,39 @@ some.com.               600     IN      A       127.0.0.1
 ;some.com.                      IN      A
 ...
 ```
+
+you ve confirm you can t resolve domain node this node does not know about.
+
+```zsh
+node cli.js add some.com <publicKey> -c ./2nd-node.json -v
+```
+
+you ve just added some.com to its peer list.
+
+```zsh
+> dig @0.0.0.0 -p 9081 some.com
+...
+;; QUESTION SECTION:
+;some.com.                      IN      A
+
+;; ANSWER SECTION:
+some.com.               600     IN      A       127.0.0.1
+...
+```
+
+you ve been able to resolve it.
+
+```zsh
+node cli.js remove some.com -c ./2nd-node.json -v
+```
+
+you ve just forgot the peer.
+
+```zsh
+node cli.js remove some.com -v
+```
+
+you ve just forgot the announcement.
 
 
 # TODO
