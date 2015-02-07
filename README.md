@@ -1,8 +1,13 @@
 # DNS Server via DHT
 
-Provides a DNS server that resolves domain names over the DHT. 
+Provides a command line to start and configure a DNS server 
+that resolves and announces domain names over the DHT.
 
-See [dns-via-dht](https://github.com/maboiteaspam/dns-via-dht)
+For implementation details of the announcement negotiation
+see [dns-via-dht](https://github.com/maboiteaspam/dns-via-dht)
+
+For DNS specification implementation
+see [node-dns](https://github.com/tjfontaine/node-dns)
 
 Pretty simple for now, no support for nss or upnp.
 
@@ -18,19 +23,13 @@ npm i maboiteaspam/dns-server-via-dht -g
 
 # Run
 
-#### Terminal 1
 ```zsh
-dns-server-via-dht start 
-```
-
-#### Terminal 2
-
-Using Terminal 1 Public key.
-
-```zsh
+dns-server-via-dht start --detach
 dns-server-via-dht announce 'some.domain' 'some passphrase'
+dns-server-via-dht add 'my-friend-dns.com' 'his public key'
+dns-server-via-dht resolve 'my-friend-dns.com' 'his public key'
+dns-server-via-dht remove 'my-friend-dns.com'
 ```
-
 
 # Usage
 
