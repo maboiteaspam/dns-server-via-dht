@@ -1,7 +1,7 @@
 # DNS Server via DHT
 
-Provides a command line to start and configure a DNS server 
-that resolves and announces domain names over the DHT.
+Provides a command line to start and configure a DNS server.
+It resolves and announces domain names over the DHT.
 
 For implementation details of the announcement negotiation
 see [dns-via-dht](https://github.com/maboiteaspam/dns-via-dht)
