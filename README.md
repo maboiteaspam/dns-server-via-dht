@@ -76,13 +76,16 @@ dns-server-via-dht remove 'my-friend-dns.com'
 ##### Terminal 1
 
 ```zsh
-node cli.js start --dht-port 9090 --dht-hostname '127.0.0.1' -K 1 -b '' -v --dns-hostname 127.0.0.1
+node cli.js start --dht-port 9090 \
+--dht-hostname '127.0.0.1' -K 1 -b '' -v --dns-hostname 127.0.0.1
 ```
 
 ##### Terminal 2
 
 ```zsh
-node cli.js start --dns-port 9081 --dht-port 9091 --dht-hostname '127.0.0.1' -K 1 -b '127.0.0.1:9090' -v -c ./tt.json --dns-hostname 127.0.0.1
+node cli.js start --dns-port 9081 --dht-port 9091 \
+--dht-hostname '127.0.0.1' -K 1 -b '127.0.0.1:9090' \
+-v -c ./tt.json --dns-hostname 127.0.0.1
 ```
 
 ##### Terminal 3
