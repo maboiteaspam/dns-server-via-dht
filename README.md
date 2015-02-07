@@ -149,6 +149,24 @@ node cli.js remove some.com -v
 
 you ve just forgot the announcement.
 
+```zsh
+> dig @0.0.0.0 -p 9080 some.com
+...
+;; QUESTION SECTION:
+;some.com.                      IN      A
+...
+```
+
+```zsh
+> dig @0.0.0.0 -p 9081 some.com
+...
+;; QUESTION SECTION:
+;some.com.                      IN      A
+...
+```
+
+dig does not resolve anymore.
+
 
 # TODO
 
