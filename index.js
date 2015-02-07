@@ -1,7 +1,6 @@
 
 var pathExtra = require('path-extra');
-var debug = require('debug')('dns-server-via-dht');
-var dns = require('dns');
+var nativeDns = require('native-dns');
 var dnsDHT = require('dns-via-dht');
 var util = require('util');
 var underscore = require('underscore');
@@ -12,13 +11,14 @@ var fs = require('fs');
 
 var DHTDNSServer = function(opts){
 
+  var debug = require('debug')('dns-server-via-dht');
   var status = 'stopped';
   var configPath = opts.configPath || pathExtra.homedir()+"/.dhtdns";
-  var config = {
+  var defaultConfig = {
     announced:{
       /*dns: passphrase|privateKey*/
     },
-    addressBook:{
+    peersDNS:{
       /*dns: publicKey*/
     }
   };
@@ -27,12 +27,12 @@ var DHTDNSServer = function(opts){
     /* dns:timeout() */
   };
 
-  var server = dns.createServer();
+  var server = nativeDns.createServer();
   var solver = new dnsDHT(opts);
 
   server.on('request', function (request, response) {
     var question = request.question[0].name;
-    var publicKey = config.addressBook[question];
+    var publicKey = config.peersDNS[question];
     if(publicKey) {
       pendingQuestions[question] = setTimeout(function(){
         delete pendingQuestions[question];
@@ -63,34 +63,62 @@ var DHTDNSServer = function(opts){
     throw 'unhandled !!!';
   });
 
-  var saveConfig = function(){
-    return !!fs.writeFileSync(configPath, JSON.stringify(config));
+  var saveConfig = function(config){
+    debug('%s', configPath);
+    debug('%s', JSON.stringify(config));
+    fs.writeFile(configPath, JSON.stringify(config));
+    return true;
   };
-
-  this.getConfig = function(){
+  var readConfig = function(){
     if( fs.existsSync(configPath) ) {
       return JSON.parse(fs.readFileSync(configPath) );
     }
-    return config;
+    return defaultConfig;
   };
-  this.announce = function(dns, passphrase){
-    if(!config.announced[dns]){
+
+  var userConfig;
+  this.getConfig = function(){
+    if( !userConfig ) {
+      userConfig = readConfig();
+    }
+    return userConfig;
+  };
+  this.addAnnounce = function(dns, passphrase){
+    var config = this.getConfig();
+    if(!config.announced[dns] && !config.peersDNS[dns]){
       config.announced[dns] = (new hashjs.sha256())
         .update(passphrase + bitauth.generateSin().priv)
         .digest('hex');
-      return saveConfig();
+      debug('%s %s', dns, config.announced[dns]);
+      return saveConfig(config);
     }
     return false;
   };
+  this.addPeer = function(dns, publicKey){
+    var config = this.getConfig();
+    if(!config.announced[dns] && !config.peersDNS[dns]){
+      config.peersDNS[dns] = publicKey;
+      debug('%s %s', dns, config.peersDNS[dns]);
+      return saveConfig(config);
+    }
+    return false;
+  };
+  this.remove = function(dns){
+    var config = this.getConfig();
+    delete config.announced[dns];
+    delete config.peersDNS[dns];
+    return saveConfig(config);
+  };
 
-  this.reload = function(){
+
+  this.reload = function(oldConfig){
 
     if(status !=='started' ) return false;
 
     var newConfig = this.getConfig();
-    var removed = underscore.diff(Object.keys(config),
+    var removed = underscore.diff(Object.keys(oldConfig),
       Object.keys(newConfig));
-    var added = underscore.diff(Object.keys(config),
+    var added = underscore.diff(Object.keys(oldConfig),
       Object.keys(newConfig));
 
     var that = this;
@@ -105,22 +133,34 @@ var DHTDNSServer = function(opts){
     }
   };
 
+  this.announce = function(dns, passphrase){
+    return solver.announce(dns, passphrase);
+  };
+
+  this.resolve = function(dns, publicKey, then){
+    return solver.resolve(dns, publicKey, then);
+  };
+
   this.start = function(then){
 
     if(status !=='stopped' ) then(false);
 
     var that = this;
-    var fileConfig = this.getConfig();
-    if(!fileConfig){
-      saveConfig();
-    } else {
-      config = fileConfig;
-    }
+    var config = this.getConfig();
     solver.start(function(){
 
       Object.keys(config.announced).forEach(function(dns){
         var passphrase = config.announced[dns];
-        solver.announce(dns, passphrase);
+        that.announce(dns, passphrase);
+      });
+
+      Object.keys(config.peersDNS).forEach(function(dns){
+        var publicKey = config.peersDNS[dns];
+        that.resolve(dns, publicKey, function(err, success){
+          if(err) console.error(err);
+          if(success) console.log('Resolved ' + dns);
+          if(!success) console.error('Not resolved ' + dns);
+        });
       });
 
       server.serve(opts.dnsPort, opts.dnsHostname);
@@ -128,7 +168,7 @@ var DHTDNSServer = function(opts){
       var options = {persistent: false, interval: 1000};
       fs.watchFile(configPath, options, function() {
         if(status !=='started' ) return false;
-        that.reload();
+        that.reload(config);
       });
 
       status = 'started';
@@ -149,3 +189,5 @@ var DHTDNSServer = function(opts){
     solver.stop(then);
   };
 };
+
+module.exports = DHTDNSServer;
