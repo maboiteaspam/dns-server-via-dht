@@ -22,14 +22,14 @@ program
 
 program.command('start')
 
-  .option('-dnsp, --dns-port <port>',
+  .option('--dns-port <port>',
   'port on which the DNS listens')
   .option('--dns-hostname <dnsHostname>',
   'hostname on which DNS listens')
 
   .option('--dht-port <dhtPort>',
   'port on which the DHT listens')
-  .option('-dhth, --dht-hostname <hostname>',
+  .option('--dht-hostname <hostname>',
   'hostname on which DHT listens')
 
   .option('-K, --knodes <K>',
@@ -100,14 +100,14 @@ program.command('start')
 program.command('resolve <dns> <publicKey>')
   .description('Resolve a peer DNS')
 
-  .option('-dnsp, --dns-port <port>',
+  .option('--dns-port <port>',
   'port on which the DNS listens')
-  .option('-dnsh, --dns-hostname <hostname>',
+  .option('--dns-hostname <hostname>',
   'hostname on which DNS listens')
 
-  .option('-dhtp, --dht-port <port>',
+  .option('--dht-port <port>',
   'port on which the DHT listens')
-  .option('-dhth, --dht-hostname <hostname>',
+  .option('--dht-hostname <hostname>',
   'hostname on which DHT listens')
 
   .option('-K, --knodes <K>',
