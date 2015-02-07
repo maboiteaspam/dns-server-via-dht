@@ -315,7 +315,6 @@ program.command('list-peers')
 
   });
 
-
 program.command('remove <dns>')
   .description('Remove a DNS from peer and announced DNS lists')
   .action(function(dns){
@@ -338,6 +337,8 @@ program.command('remove <dns>')
       console.log('failed')
     }
   });
+
+
 program.parse(process.argv);
 
 if (!process.argv.slice(2).length) {

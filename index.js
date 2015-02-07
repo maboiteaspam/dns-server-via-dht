@@ -29,11 +29,12 @@ var DHTDNSServer = function(opts){
 
   var dnsServer;
   var solver = new dnsDHT(opts);
+  debug('configPath %s', configPath);
 
 
   var saveConfig = function(config){
-    debug('%s', configPath);
-    debug('%s', JSON.stringify(config));
+    debug('configPath %s', configPath);
+    debug('config %s', JSON.stringify(config));
     fs.writeFile(configPath, JSON.stringify(config));
     return true;
   };
@@ -57,7 +58,7 @@ var DHTDNSServer = function(opts){
       config.announced[dns] = (new hashjs.sha256())
         .update(passphrase + bitauth.generateSin().priv)
         .digest('hex');
-      debug('dns=%s publicKey=%s', dns, bitauth.getPublicKeyFromPrivateKey(config.announced[dns]));
+      debug('dns=%s publicKey %s', dns, bitauth.getPublicKeyFromPrivateKey(config.announced[dns]));
       return saveConfig(config);
     }
     return false;
@@ -144,9 +145,8 @@ var DHTDNSServer = function(opts){
       Object.keys(config.peersDNS).forEach(function(dns){
         var publicKey = config.peersDNS[dns];
         that.resolve(dns, publicKey, function(err, success){
-          if(err) console.error(err);
-          if(success) console.log('Resolved ' + dns);
-          if(!success) console.error('Not resolved ' + dns);
+          debug('err %s', err);
+          debug('success %s', success);
         });
       });
 
@@ -159,12 +159,14 @@ var DHTDNSServer = function(opts){
         var publicKey = config.peersDNS[question];
         if(publicKey) {
           debug('request %s %s', question, publicKey);
-          pendingQuestions[question] = setTimeout(function(){
-            debug('timed out');
-            delete pendingQuestions[question];
-            response.send();
-          }, 5000);
-          solver.resolve(question, publicKey, function(err, response){
+          if(!pendingQuestions[question]) {
+            pendingQuestions[question] = setTimeout(function(){
+              debug('timed out');
+              delete pendingQuestions[question];
+              response.send();
+            }, 5000);
+          }
+          solver.resolve(question, publicKey, function(err, found){
             clearTimeout(pendingQuestions[question]);
             debug('send response');
             if(err){
@@ -173,7 +175,7 @@ var DHTDNSServer = function(opts){
             } else if(pendingQuestions[question]/* timeout is alive */) {
               response.answer.push(nativeDns.A({
                 name: question,
-                address: response.ip,
+                address: found.ip,
                 ttl: 600
               }));
               response.send();
@@ -192,19 +194,17 @@ var DHTDNSServer = function(opts){
               address: '127.0.0.1',
               ttl: 600
             }));
-            response.send();
           } else {
             debug('no announce found for %s', question);
-            response.send();
           }
+          response.send();
+          delete pendingQuestions[question];
         }
       });
 
       dnsServer.on('error', function (err, buff, req, res) {
-        console.log(err.stack);
-        console.log(buff);
-        console.log(req);
-        console.log(res);
+        debug('err %s', err);
+        debug('stack %s', err.stack);
         throw 'unhandled !!!';
       });
       dnsServer.serve(opts.dnsPort, opts.dnsHostname);
