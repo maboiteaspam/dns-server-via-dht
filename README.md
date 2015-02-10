@@ -75,9 +75,14 @@ dns-server-via-dht remove 'my-friend-dns.com'
                                or, 'diy' to scan the network for the BT DHT
 ```
 
+
 # Test
 
+To emulate all together a dht table, a dns server and a dns client. follow this step by step.
+
 ##### Terminal 1
+
+Announce the first node. It listens dns query on port 9080. It s using ~/.dnsdht configuration file.
 
 ```zsh
 node cli.js start --dht-port 9090 \
@@ -85,6 +90,9 @@ node cli.js start --dht-port 9090 \
 ```
 
 ##### Terminal 2
+
+Announce the second node. It listens dns query on port 9081. It s using ./2nd-node.json configuration file. 
+It bootstraps its DHT with ip of the first node.
 
 ```zsh
 node cli.js start --dns-port 9081 --dht-port 9091 \
@@ -94,9 +102,15 @@ node cli.js start --dns-port 9081 --dht-port 9091 \
 
 ##### Terminal 3
 
+Last terminal needed. It is our command and control ;)
+
+Lets first announce a domain on the first node.
+
 ```zsh
-node cli.js announce some.com whatever
+node cli.js announce some.com whatever-passphrase
 ```
+
+Consumes this node dns server to resolve the domain.
 
 ```zsh
 > dig @0.0.0.0 -p 9080 some.com
@@ -109,7 +123,10 @@ some.com.               600     IN      A       127.0.0.1
 ...
 ```
 
-you ve just resolved a locally announced domain name.
+It works, the response is the localhost. It was resolved without involving the dht.
+
+
+Now, try to resolve a DNS on the second node.
 
 ```zsh
 > dig @0.0.0.0 -p 9081 some.com
@@ -119,13 +136,16 @@ you ve just resolved a locally announced domain name.
 ...
 ```
 
-you ve confirm you can t resolve a domain this node does not know about.
+It does not work. This node has not registered ublic key for such DNS record. It won t resolve it.
+
+
+Let s add the public key for this DNS record.
 
 ```zsh
 node cli.js add some.com <publicKey> -c ./2nd-node.json -v
 ```
 
-you ve just added some.com to its peer list, you can now resolve it.
+Now it is possible to consume DNS server of the second node to resolve a query announced by the first node.
 
 ```zsh
 > dig @0.0.0.0 -p 9081 some.com
@@ -138,13 +158,13 @@ some.com.               600     IN      A       127.0.0.1
 ...
 ```
 
-done, you ve been able to resolve it.
+Here are some more examples.
 
 ```zsh
 node cli.js remove some.com -c ./2nd-node.json -v
 ```
 
-you ve just forgot the peer.
+you ve just forgot about the peer.
 
 ```zsh
 node cli.js remove some.com -v
