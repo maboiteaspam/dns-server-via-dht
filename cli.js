@@ -196,10 +196,14 @@ program.command('announce <dns> <passphrase>')
     var server = new DHTDNSServer(opts);
 
     if(server.addAnnounce(dns, passphrase) ){
-      console.log('done')
+      console.error('Added !')
     } else {
-      console.log('failed')
+      console.error('Already announced !')
     }
+    var config = server.getConfig();
+    var privateKey = config.announced[dns];
+    console.log('Your public key is');
+    console.log(''+bitauth.getPublicKeyFromPrivateKey(privateKey));
 
   });
 
@@ -282,9 +286,14 @@ program.command('add <dns> <publicKey>')
     var server = new DHTDNSServer(opts);
 
     if(server.addPeer(dns, publicKey) ){
-      console.log('done')
+      console.error('Added !')
     } else {
-      console.log('failed')
+      console.error('Already announced !')
+      if(server.editPeer(dns, publicKey) ){
+        console.error('Updated !')
+      } else {
+        console.error('Edit has failed !')
+      }
     }
   });
 
@@ -332,9 +341,9 @@ program.command('remove <dns>')
     var server = new DHTDNSServer(opts);
 
     if(server.remove(dns) ){
-      console.log('done')
+      console.log('Done !')
     } else {
-      console.log('failed')
+      console.log('No such DNS recorded !')
     }
   });
 
