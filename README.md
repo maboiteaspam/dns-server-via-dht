@@ -85,8 +85,7 @@ To emulate all together a dht table, a dns server and a dns client. follow this 
 Announce the first node. It listens dns query on port 9080. It s using ~/.dnsdht configuration file.
 
 ```zsh
-node cli.js start --dht-port 9090 \
---dht-hostname '127.0.0.1' -K 1 -b '' -v --dns-hostname 127.0.0.1
+node cli.js start --dht-port 9090 --dht-hostname '127.0.0.1' -K 1 -b '' -v --dns-hostname 127.0.0.1
 ```
 
 ##### Terminal 2
@@ -95,9 +94,7 @@ Announce the second node. It listens dns query on port 9081. It s using ./2nd-no
 It bootstraps its DHT with ip of the first node.
 
 ```zsh
-node cli.js start --dns-port 9081 --dht-port 9091 \
---dht-hostname '127.0.0.1' -K 1 -b '127.0.0.1:9090' \
--v -c ./2nd-node.json --dns-hostname 127.0.0.1
+node cli.js start --dns-port 9081 --dht-port 9091 --dht-hostname '127.0.0.1' -K 1 -b '127.0.0.1:9090' -v -c ./2nd-node.json --dns-hostname 127.0.0.1
 ```
 
 ##### Terminal 3
@@ -107,7 +104,10 @@ Last terminal needed. It is our command and control ;)
 Lets first announce a domain on the first node.
 
 ```zsh
-node cli.js announce some.com whatever-passphrase
+> node cli.js announce some.com whatever-passphrase
+Added !
+Your public key is
+0350xxxxxx04b61
 ```
 
 Consumes this node dns server to resolve the domain.
@@ -142,7 +142,7 @@ It does not work. This node has not registered public key for such DNS record. I
 Let s add the public key for this DNS record.
 
 ```zsh
-node cli.js add some.com <publicKey> -c ./2nd-node.json -v
+node cli.js add some.com <publicKey 0350xxxxxx04b61> -c ./2nd-node.json -v
 ```
 
 Now it is possible to consume DNS server of the second node to resolve a query announced by the first node.
