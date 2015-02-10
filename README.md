@@ -136,7 +136,7 @@ Now, try to resolve a DNS on the second node.
 ...
 ```
 
-It does not work. This node has not registered ublic key for such DNS record. It won t resolve it.
+It does not work. This node has not registered public key for such DNS record. It won t resolve it.
 
 
 Let s add the public key for this DNS record.
