@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var program = require('commander');
+var yesno = require('yesno');
 var bitauth = require('bitauth');
 var spawn = require('child_process').spawn;
 var DHTDNSServer = require('./index.js');
@@ -196,14 +197,13 @@ program.command('announce <dns> <passphrase>')
     var server = new DHTDNSServer(opts);
 
     if(server.addAnnounce(dns, passphrase) ){
-      console.error('Added !')
+      console.error('Added !');
     } else {
-      console.error('Already announced !')
+      console.error('Already announced !');
     }
-    var config = server.getConfig();
-    var privateKey = config.announced[dns];
+
     console.log('Your public key is');
-    console.log(''+bitauth.getPublicKeyFromPrivateKey(privateKey));
+    console.log(''+server.getAnnouncePublicKey(dns));
 
   });
 

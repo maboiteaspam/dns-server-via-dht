@@ -13,9 +13,11 @@
     "commander": "^2.6.0",
     "debug": "^2.1.1",
     "dns-via-dht": "^1.0.0",
+    "dns-via-dht-config": "^1.0.0",
     "hash.js": "^1.0.2",
     "native-dns": "^0.7.0",
     "path-extra": "^0.3.0",
-    "underscore": "^1.7.0"
+    "underscore": "^1.7.0",
+    "yesno": "0.0.1"
   }
 }

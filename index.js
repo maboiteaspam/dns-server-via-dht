@@ -6,7 +6,7 @@ var util = require('util');
 var underscore = require('underscore');
 var bitauth = require('bitauth');
 var fs = require('fs');
-var ConfigHelper = require('./config.js');
+var ConfigHelper = require('dns-via-dht-config');
 
 
 var DHTDNSServer = function(opts){
@@ -30,6 +30,9 @@ var DHTDNSServer = function(opts){
   };
   this.addAnnounce = function(dns, passphrase){
     return configHolder.addAnnounce(dns, passphrase);
+  };
+  this.getAnnouncePublicKey = function(dns){
+    return configHolder.getAnnouncePublicKey(dns);
   };
   this.addPeer = function(dns, publicKey){
     return configHolder.addPeer(dns, publicKey);
@@ -76,7 +79,7 @@ var DHTDNSServer = function(opts){
   };
 
   this.announce = function(dns, passphrase){
-    debug('announcing %s', dns);
+    debug('announcing %s', dns, passphrase);
     return solver.announce(dns, passphrase);
   };
 
