@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 var program = require('commander');
-var yesno = require('yesno');
 var bitauth = require('bitauth');
 var spawn = require('child_process').spawn;
 var DHTDNSServer = require('./index.js');
