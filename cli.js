@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 var program = require('commander');
-var bitauth = require('bitauth');
 var spawn = require('child_process').spawn;
 var DHTDNSServer = require('./index.js');
 
@@ -229,7 +228,7 @@ program.command('show <dns>')
       var privateKey = config.announced[dns];
       console.log('type : announced DNS');
       console.log('passphrase : '+privateKey);
-      console.log('public Key : '+bitauth.getPublicKeyFromPrivateKey(privateKey));
+      console.log('public Key : '+server.getAnnouncePublicKey(privateKey));
     } else if(config.peersDNS[dns]){
       var publicKey = config.peersDNS[dns];
       console.log('type : peer DNS');
@@ -263,7 +262,7 @@ program.command('list-announces')
     console.log('');
     dnsList.forEach(function(dns){
       var privateKey = config.announced[dns];
-      console.log(dns+ ' => '+bitauth.getPublicKeyFromPrivateKey(privateKey));
+      console.log(dns+ ' => '+server.getAnnouncePublicKey(privateKey));
     });
 
   });

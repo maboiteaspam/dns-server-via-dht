@@ -4,7 +4,6 @@ var nativeDns = require('native-dns');
 var dnsDHT = require('dns-via-dht');
 var util = require('util');
 var underscore = require('underscore');
-var bitauth = require('bitauth');
 var fs = require('fs');
 var ConfigHelper = require('dns-via-dht-config');
 
@@ -155,7 +154,7 @@ var DHTDNSServer = function(opts){
         var resolveLocalDNS = function(response){
           debug('no peer found for %s', question);
           var privateKey = config.announced[question];
-          var publicKey = bitauth.getPublicKeyFromPrivateKey(privateKey);
+          var publicKey = that.getAnnouncePublicKey(privateKey);
           debug('found announce %s %s', question, publicKey);
           debug('send response');
           response.answer.push(nativeDns.A({
