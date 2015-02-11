@@ -17,7 +17,6 @@
     "hash.js": "^1.0.2",
     "native-dns": "^0.7.0",
     "path-extra": "^0.3.0",
-    "underscore": "^1.7.0",
-    "yesno": "0.0.1"
+    "underscore": "^1.7.0"
   }
 }
